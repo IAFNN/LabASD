@@ -3,18 +3,22 @@ package com.example.lab1asd;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 
+import java.net.Inet4Address;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
 
 public abstract class Algorithm extends Thread{
     protected Integer[] array;
+    protected long timeStart;
     protected Label labelToDisplay;
     protected Controller controller;
+    protected Label timeCountDisplay;
 
-    public Algorithm(Integer[] array, Label label, int delay){
+    public Algorithm(Integer[] array, Label label, int delay, Label timeCount){
         this.array = array;
         this.labelToDisplay = label;
         this.delay = delay;
+        this.timeCountDisplay = timeCount;
         (controller = new Controller(this)).start();
     }
     protected int delay;
@@ -46,12 +50,14 @@ public abstract class Algorithm extends Thread{
     }
 }
 class BubbleSort extends Algorithm{
-    public BubbleSort(Integer[] array, Label label, int delay) {
-        super(array, label, delay);
+    public BubbleSort(Integer[] array, Label label, int delay, Label timeCount) {
+        super(array, label, delay, timeCount);
     }
     @Override
     public void run() {
+        timeStart = System.currentTimeMillis();
         for(int i = 0; i < array.length; i++){
+            boolean toStop = true;
             for(int i2 = 0; i2 < array.length - i - 1; i2++){
                 int tempI2 = i2;
                 Platform.runLater(() -> {
@@ -70,17 +76,25 @@ class BubbleSort extends Algorithm{
                     int temp2 = array[i2];
                     array[i2] = array[i2 + 1];
                     array[i2 + 1] = temp2;
+                    toStop = false;
                 }
             }
+            if(toStop){
+                break;
+            }
         }
+        Platform.runLater(() -> {
+            timeCountDisplay.setText((System.currentTimeMillis() - timeStart) + "ms");
+        });
     }
 }
 class DeletingAlgorithm extends Algorithm{
-    public DeletingAlgorithm(Integer[] array, Label label, int delay) {
-        super(array, label, delay);
+    public DeletingAlgorithm(Integer[] array, Label label, int delay, Label timeCount) {
+        super(array, label, delay, timeCount);
     }
     @Override
     public void run() {
+        timeStart = System.currentTimeMillis();
         HashMap<Integer, Integer> map = new HashMap<>();
         for (Integer integer : array) {
             Platform.runLater(() -> {
@@ -119,11 +133,13 @@ class DeletingAlgorithm extends Algorithm{
             } catch (InterruptedException ignored) {}
         }
         ArrayList<Integer> arrayList = new ArrayList<>();
+        Integer[] arrayCopy = array.clone();
         Collections.addAll(arrayList, array);
         arrayList.removeAll(List.of(maxElement));
         array = arrayList.toArray(new Integer[0]);
         Platform.runLater(() -> {
-            labelToDisplay.setText(toString());
+            labelToDisplay.setText(this + "\tinitial array was " + Arrays.toString(arrayCopy));
+            timeCountDisplay.setText((System.currentTimeMillis() - timeStart) + "ms");
         });
     }
 }

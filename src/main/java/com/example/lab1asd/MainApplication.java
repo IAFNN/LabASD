@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 
 
-public class HelloApplication extends Application {
+public class MainApplication extends Application {
     private final InputData INPUT_DATA = new InputData();
     private final Pane PANE = new Pane();
     private Controller CONTROLLER;
@@ -103,33 +103,33 @@ public class HelloApplication extends Application {
         return array;
     }
     public void whenStarted(){
-        Label status = new Label("Running");
-        status.relocate(375, 153);
         Button pause = new Button("Pause");
         pause.resize(50, 50);
         pause.relocate(250, 150);
         pause.setOnAction(actionEvent -> {
             CONTROLLER.setToPause(true);
-            status.setText("Paused");
         });
         Button resume = new Button("Resume");
         resume.resize(50, 50);
         resume.relocate(500, 150);
         resume.setOnAction(actionEvent -> {
             CONTROLLER.setToResume(true);
-            status.setText("Running");
         });
         Label result = new Label();
         result.relocate(250, 200);
         result.setFont(new Font(20));
+        Label timeCount = new Label();
+        timeCount.relocate(250, 200);
+        timeCount.setFont(new Font(20));
         Button reset = new Button("Reset");
         reset.resize(50, 50);
         reset.relocate(600, 150);
         reset.setOnAction(actionEvent -> {
-            status.setText("");
             result.setText("");
+            timeCount.setText("");
         });
+        INPUT_DATA.setTimeCountDisplay(timeCount);
         INPUT_DATA.setLabelToDisplay(result);
-        PANE.getChildren().addAll(pause, resume, status, reset, result);
+        PANE.getChildren().addAll(pause, resume, reset, result, timeCount);
     }
 }

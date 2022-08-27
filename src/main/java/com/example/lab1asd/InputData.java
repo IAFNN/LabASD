@@ -9,6 +9,7 @@ public class InputData {
     private int size;
     private Integer[] array;
     private Label labelToDisplay;
+    private Label timeCountDisplay;
     private int delay = 0;
 
     public InputData(){}
@@ -17,6 +18,11 @@ public class InputData {
         this.size = size;
         array = new Integer[size];
     }
+
+    public void setTimeCountDisplay(Label timeCountDisplay) {
+        this.timeCountDisplay = timeCountDisplay;
+    }
+
 
     public void setLabelToDisplay(Label labelToDisplay) {
         this.labelToDisplay = labelToDisplay;
@@ -35,13 +41,13 @@ public class InputData {
         return size;
     }
     public Controller startSortingAlgorithm(){
-        Algorithm algorithm = new BubbleSort(array, labelToDisplay, delay);
+        Algorithm algorithm = new BubbleSort(array, labelToDisplay, delay, timeCountDisplay);
         Controller controller = algorithm.getController();
         algorithm.start();
         return controller;
     }
     public Controller startAdditionalAlgorithm(){
-        Algorithm algorithm = new DeletingAlgorithm(array, labelToDisplay, delay);
+        Algorithm algorithm = new DeletingAlgorithm(array, labelToDisplay, delay, timeCountDisplay);
         Controller controller = algorithm.getController();
         algorithm.start();
         return controller;
