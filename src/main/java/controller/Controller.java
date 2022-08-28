@@ -1,17 +1,13 @@
-package com.example.lab1asd;
+package controller;
 
-import java.util.concurrent.CountDownLatch;
+import algorithm.Algorithm;
 
 public class Controller extends Thread{
     private boolean toPause = false;
-    private boolean toResume = false;
     private boolean toEnd = false;
-    private Algorithm algorithm;
+    private final Algorithm algorithm;
     public void setToPause(boolean toPause) {
         this.toPause = toPause;
-    }
-    public void setToResume(boolean toResume) {
-        this.toResume = toResume;
     }
 
     public void end() {
@@ -27,11 +23,6 @@ public class Controller extends Thread{
             if(toPause){
                 algorithm.interrupt();
                 toPause = false;
-            }
-            if(toResume){
-                algorithm.getCountDownLatch().countDown();
-                algorithm.setCountDownLatch(new CountDownLatch(1));
-                toResume = false;
             }
         }
     }

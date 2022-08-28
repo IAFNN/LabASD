@@ -1,5 +1,7 @@
-package com.example.lab1asd;
+package fx;
 
+import controller.Controller;
+import algorithm.InputData;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -51,17 +53,17 @@ public class MainApplication extends Application {
         Label arraySize = new Label();
         arraySize.relocate(30, 100);
         arraySize.setText("Array size: " + INPUT_DATA.getSize());
-        TextField arrayElementsTextField = new TextField("Enter " + INPUT_DATA.getSize() + " integers splitted" +
+        TextField arrayElementsTextField = new TextField("Enter " + INPUT_DATA.getSize() + " integers split" +
                 " with '|'");
         arrayElementsTextField.setPrefSize(300, 20);
         arrayElementsTextField.relocate(arraySize.getLayoutX() + arraySize.getWidth() + 100, arraySize.getLayoutY() - 4);
         Button button = new Button("Start sorting");
-        button.resize(50, 50);
         button.relocate(arrayElementsTextField.getLayoutX() + 420, arrayElementsTextField.getLayoutY());
         Button delete = new Button("Start deleting");
         delete.relocate(arrayElementsTextField.getLayoutX() + 320, arrayElementsTextField.getLayoutY());
+        Button selection = new Button("Start selection sort");
+        selection.relocate(button.getLayoutX(), button.getLayoutY() + 35);
         Button random = new Button("Random");
-        random.resize(50, 50);
         random.relocate(arrayElementsTextField.getLayoutX() + 240, arrayElementsTextField.getLayoutY());
         random.setOnAction(actionEvent -> {
             String array = "";
@@ -92,7 +94,16 @@ public class MainApplication extends Application {
             delayTextField.clear();
             arrayElementsTextField.clear();
         });
-        PANE.getChildren().addAll(arrayElementsTextField, arraySize, delayTextField, button, random, delete);
+        selection.setOnAction(actionEvent -> {
+            Integer[] array = parseTextField(arrayElementsTextField);
+            INPUT_DATA.setArray(array);
+            INPUT_DATA.setDelay(Integer.parseInt(delayTextField.getText()));
+            whenStarted();
+            CONTROLLER = INPUT_DATA.startSelectionSort();
+            delayTextField.clear();
+            arrayElementsTextField.clear();
+        });
+        PANE.getChildren().addAll(arrayElementsTextField, arraySize, delayTextField, button, random, delete, selection);
     }
     public Integer[] parseTextField(TextField textField){
         Integer[] array = new Integer[INPUT_DATA.getSize()];
@@ -106,15 +117,7 @@ public class MainApplication extends Application {
         Button pause = new Button("Pause");
         pause.resize(50, 50);
         pause.relocate(250, 150);
-        pause.setOnAction(actionEvent -> {
-            CONTROLLER.setToPause(true);
-        });
-        Button resume = new Button("Resume");
-        resume.resize(50, 50);
-        resume.relocate(500, 150);
-        resume.setOnAction(actionEvent -> {
-            CONTROLLER.setToResume(true);
-        });
+        pause.setOnAction(actionEvent -> CONTROLLER.setToPause(true));
         Label result = new Label();
         result.relocate(250, 200);
         result.setFont(new Font(20));
@@ -123,13 +126,13 @@ public class MainApplication extends Application {
         timeCount.setFont(new Font(20));
         Button reset = new Button("Reset");
         reset.resize(50, 50);
-        reset.relocate(600, 150);
+        reset.relocate(300, 150);
         reset.setOnAction(actionEvent -> {
             result.setText("");
             timeCount.setText("");
         });
         INPUT_DATA.setTimeCountDisplay(timeCount);
         INPUT_DATA.setLabelToDisplay(result);
-        PANE.getChildren().addAll(pause, resume, reset, result, timeCount);
+        PANE.getChildren().addAll(pause, reset, result, timeCount);
     }
 }

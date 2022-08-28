@@ -1,9 +1,7 @@
-package com.example.lab1asd;
-
-import javafx.application.Platform;
+package algorithm;
+import controller.Controller;
+import view.View;
 import javafx.scene.control.Label;
-
-import java.util.concurrent.CountDownLatch;
 
 public class InputData {
     private int size;
@@ -41,14 +39,23 @@ public class InputData {
         return size;
     }
     public Controller startSortingAlgorithm(){
-        Algorithm algorithm = new BubbleSort(array, labelToDisplay, delay, timeCountDisplay);
+        Algorithm algorithm = new BubbleSort(array, delay);
         Controller controller = algorithm.getController();
+        new View(labelToDisplay, timeCountDisplay, algorithm).start();
         algorithm.start();
         return controller;
     }
     public Controller startAdditionalAlgorithm(){
-        Algorithm algorithm = new DeletingAlgorithm(array, labelToDisplay, delay, timeCountDisplay);
+        Algorithm algorithm = new DeletingAlgorithm(array, delay);
         Controller controller = algorithm.getController();
+        new View(labelToDisplay, timeCountDisplay, algorithm).start();
+        algorithm.start();
+        return controller;
+    }
+    public Controller startSelectionSort(){
+        Algorithm algorithm = new SelectionSort(array, delay);
+        Controller controller = algorithm.getController();
+        new View(labelToDisplay, timeCountDisplay, algorithm).start();
         algorithm.start();
         return controller;
     }
