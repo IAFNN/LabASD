@@ -2,31 +2,31 @@ package algorithm;
 import java.util.*;
 
 class DeletingAlgorithm extends Algorithm {
-    public DeletingAlgorithm(Integer[] array, int delay) {
+    public DeletingAlgorithm(Double[] array, int delay) {
         super(array, delay);
     }
 
     @Override
     public void run() {
-        HashMap<Integer, Integer> map = new HashMap<>();
+        HashMap<Double, Integer> map = new HashMap<>();
         toString = () -> this + "\nCurrent frequency map is\n" + map;
-        for (Integer integer : array) {
+        for (Double aDouble : array) {
             waitForDelay();
-            if (map.containsKey(integer)) {
-                map.put(integer, map.get(integer) + 1);
+            if (map.containsKey(aDouble)) {
+                map.put(aDouble, map.get(aDouble) + 1);
             } else {
-                map.put(integer, 1);
+                map.put(aDouble, 1);
             }
         }
         int maxValue = Integer.MIN_VALUE;
-        int maxElement = 0;
-        for (Map.Entry<Integer, Integer> element : map.entrySet()) {
+        double maxElement = 0;
+        for (Map.Entry<Double, Integer> element : map.entrySet()) {
             if (element.getValue() > maxValue) {
                 maxValue = element.getValue();
                 maxElement = element.getKey();
             }
         }
-        int finalMaxElement = maxElement;
+        double finalMaxElement = maxElement;
         toString = () -> this + "\nCurrent frequency map is\n" + map + "\nThe most frequent element is " + finalMaxElement + "\nDeleting...";
         try {
             Thread.sleep(delay);
@@ -36,11 +36,11 @@ class DeletingAlgorithm extends Algorithm {
             } catch (InterruptedException ignored) {
             }
         }
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        Integer[] arrayCopy = array.clone();
+        ArrayList<Double> arrayList = new ArrayList<>();
+        Double[] arrayCopy = array.clone();
         Collections.addAll(arrayList, array);
         arrayList.removeAll(List.of(maxElement));
-        array = arrayList.toArray(new Integer[0]);
+        array = arrayList.toArray(new Double[0]);
         toString = () -> this + "\tinitial array was " + Arrays.toString(arrayCopy);
     }
 }

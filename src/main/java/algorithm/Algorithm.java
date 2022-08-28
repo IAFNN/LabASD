@@ -6,11 +6,11 @@ import java.util.concurrent.CountDownLatch;
 import java.util.function.Supplier;
 
 public abstract class Algorithm extends Thread{
-    protected Integer[] array;
+    protected Double[] array;
     protected Controller controller;
     protected Supplier<String> toString;
 
-    public Algorithm(Integer[] array, int delay){
+    public Algorithm(Double[] array, int delay){
         this.array = array;
         this.delay = delay;
         (controller = new Controller(this)).start();

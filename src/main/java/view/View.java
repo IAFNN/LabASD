@@ -18,7 +18,7 @@ public class View extends Thread{
     public void run() {
         timeStart = System.currentTimeMillis();
         try {
-            Thread.sleep(algorithm.getDelay() / 2);
+            Thread.sleep(algorithm.getDelay() / 10);
             while (algorithm.isAlive()) {
                 Platform.runLater(() -> labelToDisplayResult.setText(algorithm.getToString().get()));
                 Thread.sleep(algorithm.getDelay() / 2);

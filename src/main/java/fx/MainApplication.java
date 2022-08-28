@@ -63,12 +63,14 @@ public class MainApplication extends Application {
         delete.relocate(arrayElementsTextField.getLayoutX() + 320, arrayElementsTextField.getLayoutY());
         Button selection = new Button("Start selection sort");
         selection.relocate(button.getLayoutX(), button.getLayoutY() + 35);
+        Button sinus = new Button("sin(x)");
+        sinus.relocate(delete.getLayoutX(), delete.getLayoutY() + 35);
         Button random = new Button("Random");
         random.relocate(arrayElementsTextField.getLayoutX() + 240, arrayElementsTextField.getLayoutY());
         random.setOnAction(actionEvent -> {
             String array = "";
             for(int i = 0; i < INPUT_DATA.getSize(); i++){
-                array = array.concat(((int) (Math.random() * 100)) + "|");
+                array = array.concat(((int) (Math.random() * 200 - 100)) + "|");
             }
             array = array.substring(0, array.length() - 1);
             arrayElementsTextField.setText(array);
@@ -77,7 +79,7 @@ public class MainApplication extends Application {
         delayTextField.resize(300, 20);
         delayTextField.relocate(button.getLayoutX() + 90, button.getLayoutY());
         button.setOnAction(actionEvent -> {
-            Integer[] array = parseTextField(arrayElementsTextField);
+            Double[] array = parseTextField(arrayElementsTextField);
             INPUT_DATA.setArray(array);
             INPUT_DATA.setDelay(Integer.parseInt(delayTextField.getText()));
             whenStarted();
@@ -86,7 +88,7 @@ public class MainApplication extends Application {
             arrayElementsTextField.clear();
         });
         delete.setOnAction(actionEvent -> {
-            Integer[] array = parseTextField(arrayElementsTextField);
+            Double[] array = parseTextField(arrayElementsTextField);
             INPUT_DATA.setArray(array);
             INPUT_DATA.setDelay(Integer.parseInt(delayTextField.getText()));
             whenStarted();
@@ -95,7 +97,7 @@ public class MainApplication extends Application {
             arrayElementsTextField.clear();
         });
         selection.setOnAction(actionEvent -> {
-            Integer[] array = parseTextField(arrayElementsTextField);
+            Double[] array = parseTextField(arrayElementsTextField);
             INPUT_DATA.setArray(array);
             INPUT_DATA.setDelay(Integer.parseInt(delayTextField.getText()));
             whenStarted();
@@ -103,13 +105,22 @@ public class MainApplication extends Application {
             delayTextField.clear();
             arrayElementsTextField.clear();
         });
-        PANE.getChildren().addAll(arrayElementsTextField, arraySize, delayTextField, button, random, delete, selection);
+        sinus.setOnAction(actionEvent -> {
+            Double[] array = parseTextField(arrayElementsTextField);
+            INPUT_DATA.setArray(array);
+            INPUT_DATA.setDelay(Integer.parseInt(delayTextField.getText()));
+            whenStarted();
+            CONTROLLER = INPUT_DATA.startSinusAlgorithm();
+            delayTextField.clear();
+            arrayElementsTextField.clear();
+        });
+        PANE.getChildren().addAll(arrayElementsTextField, arraySize, delayTextField, button, random, delete, selection, sinus);
     }
-    public Integer[] parseTextField(TextField textField){
-        Integer[] array = new Integer[INPUT_DATA.getSize()];
+    public Double[] parseTextField(TextField textField){
+        Double[] array = new Double[INPUT_DATA.getSize()];
         String[] input = textField.getText().split("\\|");
         for(int i = 0; i < array.length; i++){
-            array[i] = Integer.parseInt(input[i]);
+            array[i] = Double.valueOf(input[i]);
         }
         return array;
     }

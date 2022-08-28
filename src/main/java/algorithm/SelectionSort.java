@@ -1,10 +1,10 @@
 package algorithm;
 
 public class SelectionSort extends Algorithm{
-    public SelectionSort(Integer[] array, int delay){
+    public SelectionSort(Double[] array, int delay){
         super(array, delay);
     }
-    private int max;
+    private double max;
     private int i2;
     private int i;
     @Override
@@ -22,7 +22,7 @@ public class SelectionSort extends Algorithm{
             }
             toString = () -> this + "\nMax element in this iteration is " + max + ", swapping with " + array[i];
             waitForDelay();
-            int temp = array[i];
+            double temp = array[i];
             array[i] = array[maxIndex];
             array[maxIndex] = temp;
         }

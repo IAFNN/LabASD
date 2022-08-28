@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 
 public class InputData {
     private int size;
-    private Integer[] array;
+    private Double[] array;
     private Label labelToDisplay;
     private Label timeCountDisplay;
     private int delay = 0;
@@ -14,7 +14,7 @@ public class InputData {
 
     public void setSize(int size) {
         this.size = size;
-        array = new Integer[size];
+        array = new Double[size];
     }
 
     public void setTimeCountDisplay(Label timeCountDisplay) {
@@ -31,7 +31,7 @@ public class InputData {
         this.delay = delay;
     }
 
-    public void setArray(Integer[] array) {
+    public void setArray(Double[] array) {
         this.array = array;
     }
 
@@ -54,6 +54,13 @@ public class InputData {
     }
     public Controller startSelectionSort(){
         Algorithm algorithm = new SelectionSort(array, delay);
+        Controller controller = algorithm.getController();
+        new View(labelToDisplay, timeCountDisplay, algorithm).start();
+        algorithm.start();
+        return controller;
+    }
+    public Controller startSinusAlgorithm(){
+        Algorithm algorithm = new SinusAlgorithm(array, delay);
         Controller controller = algorithm.getController();
         new View(labelToDisplay, timeCountDisplay, algorithm).start();
         algorithm.start();
