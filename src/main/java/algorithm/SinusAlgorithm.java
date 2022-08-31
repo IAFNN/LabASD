@@ -16,5 +16,6 @@ public class SinusAlgorithm extends Algorithm{
                 array[i] = Math.round(Math.sin(array[i]) * 1000) / 1000.0;
             }
         }
+        i--;
     }
 }

@@ -20,11 +20,14 @@ public class SelectionSort extends Algorithm{
                     max = array[i2];
                 }
             }
+            i2--;
             toString = () -> this + "\nMax element in this iteration is " + max + ", swapping with " + array[i];
             waitForDelay();
             double temp = array[i];
             array[i] = array[maxIndex];
             array[maxIndex] = temp;
+            i2 = i + 2;
         }
+        i--;
     }
 }
