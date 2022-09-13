@@ -1,6 +1,7 @@
 package algorithm;
 
 import controller.Controller;
+import model.InputData;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Supplier;

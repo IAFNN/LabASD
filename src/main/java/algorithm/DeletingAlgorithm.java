@@ -1,7 +1,9 @@
 package algorithm;
+import model.InputData;
+
 import java.util.*;
 
-class DeletingAlgorithm<T> extends Algorithm<T> {
+public class DeletingAlgorithm<T> extends Algorithm<T> {
     public DeletingAlgorithm(InputData<? extends Comparable<T>> inputData) {
         super(inputData);
     }

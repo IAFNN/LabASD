@@ -1,5 +1,8 @@
 package algorithm;
 
+import model.InputData;
+import model.Vector;
+
 public class ShellAlgorithm extends Algorithm<Vector>{
     public ShellAlgorithm(InputData<Vector> inputData){
         super(inputData);

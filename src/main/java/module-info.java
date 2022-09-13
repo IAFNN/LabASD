@@ -6,4 +6,5 @@ module com.example.lab1asd {
     opens algorithm;
     opens controller;
     opens view;
+    opens model;
 }

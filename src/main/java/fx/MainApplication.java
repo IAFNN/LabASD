@@ -1,8 +1,9 @@
 package fx;
 
-import algorithm.Vector;
+import model.Student;
+import model.Vector;
 import controller.Controller;
-import algorithm.InputData;
+import model.InputData;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -50,7 +51,7 @@ public class MainApplication extends Application {
             whenSizeEntered();
         });
         PANE.getChildren().addAll(arraySizeTextField, button);
-        return new Scene(PANE, 800, 600);
+        return new Scene(PANE, 1000, 600);
     }
     public void whenSizeEntered(){
         Label arraySize = new Label();
@@ -70,6 +71,8 @@ public class MainApplication extends Application {
         sinus.relocate(delete.getLayoutX(), delete.getLayoutY() + 35);
         Button shell = new Button("Shell algorithm");
         shell.relocate(selection.getLayoutX() + 130, selection.getLayoutY());
+        Button quick = new Button("Quick sort");
+        quick.relocate(sinus.getLayoutX() - 100, sinus.getLayoutY());
         Button random = new Button("Random");
         random.relocate(arrayElementsTextField.getLayoutX() + 240, arrayElementsTextField.getLayoutY());
         random.setOnAction(actionEvent -> {
@@ -138,7 +141,22 @@ public class MainApplication extends Application {
             CONTROLLER = vectorsInput.startShellAlgorithm();
             delayTextField.clear();
         });
-        PANE.getChildren().addAll(arrayElementsTextField, arraySize, delayTextField, button, random, delete, selection, sinus, shell);
+        quick.setOnAction((actionEvent) -> {
+            ArrayList<String> input = new ArrayList<>();
+            Collections.addAll(input, arrayElementsTextField.getText().split(" "));
+            Student[] students = new Student[input.size()];
+            for(int i = 0; i < students.length; i++){
+                String[] temp = input.get(i).split("\\|");
+                students[i] = new Student(temp[0], Double.valueOf(temp[1]));
+            }
+            InputData<Student> inputData = new InputData<>();
+            inputData.setArray(students);
+            inputData.setDelay(Integer.parseInt(delayTextField.getText()));
+            whenStarted(arrayElementsTextField, inputData);
+            CONTROLLER = inputData.startQuickSort();
+            delayTextField.clear();
+        });
+        PANE.getChildren().addAll(arrayElementsTextField, arraySize, delayTextField, button, random, delete, selection, sinus, shell, quick);
     }
     public Double[] parseTextField(TextField textField){
         Double[] array = new Double[INPUT_DATA.getSize()];
@@ -154,7 +172,7 @@ public class MainApplication extends Application {
         pause.relocate(250, 150);
         pause.setOnAction(actionEvent -> CONTROLLER.setToPause(true));
         Label result = new Label();
-        result.relocate(250, 230);
+        result.relocate(50, 230);
         result.setFont(new Font(20));
         Label timeCount = new Label();
         timeCount.relocate(250, 200);

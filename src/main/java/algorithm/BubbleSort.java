@@ -1,6 +1,8 @@
 package algorithm;
 
-class BubbleSort<T> extends Algorithm<T> {
+import model.InputData;
+
+public class BubbleSort<T> extends Algorithm<T> {
     public BubbleSort(InputData<? extends Comparable<T>> inputData) {
         super(inputData);
     }

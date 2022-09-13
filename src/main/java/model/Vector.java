@@ -1,4 +1,4 @@
-package algorithm;
+package model;
 
 public class Vector implements Comparable<Vector>{
     private Double[] array;

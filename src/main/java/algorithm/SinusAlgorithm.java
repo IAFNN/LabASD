@@ -1,5 +1,7 @@
 package algorithm;
 
+import model.InputData;
+
 public class SinusAlgorithm extends Algorithm<Double>{
     public SinusAlgorithm(InputData<Double> inputData){
         super(inputData);

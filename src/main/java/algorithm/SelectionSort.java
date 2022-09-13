@@ -1,5 +1,7 @@
 package algorithm;
 
+import model.InputData;
+
 public class SelectionSort<T> extends Algorithm<T>{
     public SelectionSort(InputData<? extends Comparable<T>> inputData){
         super(inputData);

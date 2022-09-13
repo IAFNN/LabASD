@@ -1,4 +1,5 @@
-package algorithm;
+package model;
+import algorithm.*;
 import controller.Controller;
 import view.View;
 import javafx.scene.control.Label;
@@ -96,6 +97,18 @@ public class InputData<T extends Comparable<T>> {
     public Controller startShellAlgorithm(){
         try {
             Algorithm<Vector> algorithm = new ShellAlgorithm((InputData<Vector>) this);
+            Controller controller = algorithm.getController();
+            new View(labelToDisplay, timeCountDisplay, algorithm).start();
+            algorithm.start();
+            return controller;
+        }catch (ClassCastException e){
+            System.out.println("Incorrect type of data");
+            return null;
+        }
+    }
+    public Controller startQuickSort(){
+        try{
+            Algorithm<Student> algorithm = new QuickSort((InputData<Student>) this);
             Controller controller = algorithm.getController();
             new View(labelToDisplay, timeCountDisplay, algorithm).start();
             algorithm.start();
