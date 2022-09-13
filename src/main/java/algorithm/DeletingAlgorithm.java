@@ -1,16 +1,16 @@
 package algorithm;
 import java.util.*;
 
-class DeletingAlgorithm extends Algorithm {
-    public DeletingAlgorithm(Double[] array, int delay) {
-        super(array, delay);
+class DeletingAlgorithm<T> extends Algorithm<T> {
+    public DeletingAlgorithm(InputData<? extends Comparable<T>> inputData) {
+        super(inputData);
     }
 
     @Override
     public void run() {
-        HashMap<Double, Integer> map = new HashMap<>();
+        HashMap<Comparable<T>, Integer> map = new HashMap<>();
         toString = () -> this + "\nCurrent frequency map is\n" + map;
-        for (Double aDouble : array) {
+        for (Comparable<T> aDouble : array) {
             waitForDelay();
             if (map.containsKey(aDouble)) {
                 map.put(aDouble, map.get(aDouble) + 1);
@@ -19,14 +19,14 @@ class DeletingAlgorithm extends Algorithm {
             }
         }
         int maxValue = Integer.MIN_VALUE;
-        double maxElement = 0;
-        for (Map.Entry<Double, Integer> element : map.entrySet()) {
+        Comparable<T> maxElement = null;
+        for (Map.Entry<Comparable<T>, Integer> element : map.entrySet()) {
             if (element.getValue() > maxValue) {
                 maxValue = element.getValue();
                 maxElement = element.getKey();
             }
         }
-        double finalMaxElement = maxElement;
+        Comparable<T> finalMaxElement = maxElement;
         toString = () -> this + "\nCurrent frequency map is\n" + map + "\nThe most frequent element is " + finalMaxElement + "\nDeleting...";
         try {
             Thread.sleep(delay);
@@ -36,11 +36,11 @@ class DeletingAlgorithm extends Algorithm {
             } catch (InterruptedException ignored) {
             }
         }
-        ArrayList<Double> arrayList = new ArrayList<>();
-        Double[] arrayCopy = array.clone();
+        ArrayList<Comparable<T>> arrayList = new ArrayList<>();
+        Comparable<T>[] arrayCopy = array.clone();
         Collections.addAll(arrayList, array);
         arrayList.removeAll(List.of(maxElement));
-        array = arrayList.toArray(new Double[0]);
+        array = arrayList.toArray(arrayCopy);
         toString = () -> this + "\tinitial array was " + Arrays.toString(arrayCopy);
     }
 }

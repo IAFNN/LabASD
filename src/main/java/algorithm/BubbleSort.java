@@ -1,8 +1,8 @@
 package algorithm;
 
-class BubbleSort extends Algorithm {
-    public BubbleSort(Double[] array, int delay) {
-        super(array, delay);
+class BubbleSort<T> extends Algorithm<T> {
+    public BubbleSort(InputData<? extends Comparable<T>> inputData) {
+        super(inputData);
     }
 
     private int i2;
@@ -15,8 +15,8 @@ class BubbleSort extends Algorithm {
             boolean toStop = true;
             for (i2 = 0; i2 < array.length - i - 1; i2++) {
                 waitForDelay();
-                if (array[i2] > array[i2 + 1]) {
-                    double temp2 = array[i2];
+                if (array[i2].compareTo((T) array[i2 + 1]) > 0) {
+                    Comparable<T> temp2 = array[i2];
                     array[i2] = array[i2 + 1];
                     array[i2 + 1] = temp2;
                     toStop = false;

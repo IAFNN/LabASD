@@ -5,14 +5,14 @@ import controller.Controller;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Supplier;
 
-public abstract class Algorithm extends Thread{
-    protected Double[] array;
+public abstract class Algorithm<T> extends Thread{
+    protected Comparable<T>[] array;
     protected Controller controller;
     protected Supplier<String> toString;
 
-    public Algorithm(Double[] array, int delay){
-        this.array = array;
-        this.delay = delay;
+    public Algorithm(InputData<? extends Comparable<T>> inputData){
+        this.array = inputData.getArray();
+        this.delay = inputData.getDelay();
         (controller = new Controller(this)).start();
     }
     protected int delay;

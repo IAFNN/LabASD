@@ -1,5 +1,6 @@
 package fx;
 
+import algorithm.Vector;
 import controller.Controller;
 import algorithm.InputData;
 import javafx.application.Application;
@@ -11,10 +12,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class MainApplication extends Application {
-    private final InputData INPUT_DATA = new InputData();
+    private final InputData<Double> INPUT_DATA = new InputData<>();
     private final Pane PANE = new Pane();
     private Controller CONTROLLER;
     @Override
@@ -65,6 +68,8 @@ public class MainApplication extends Application {
         selection.relocate(button.getLayoutX(), button.getLayoutY() + 35);
         Button sinus = new Button("sin(x)");
         sinus.relocate(delete.getLayoutX(), delete.getLayoutY() + 35);
+        Button shell = new Button("Shell algorithm");
+        shell.relocate(selection.getLayoutX() + 130, selection.getLayoutY());
         Button random = new Button("Random");
         random.relocate(arrayElementsTextField.getLayoutX() + 240, arrayElementsTextField.getLayoutY());
         random.setOnAction(actionEvent -> {
@@ -82,39 +87,58 @@ public class MainApplication extends Application {
             Double[] array = parseTextField(arrayElementsTextField);
             INPUT_DATA.setArray(array);
             INPUT_DATA.setDelay(Integer.parseInt(delayTextField.getText()));
-            whenStarted();
+            whenStarted(arrayElementsTextField, INPUT_DATA);
             CONTROLLER = INPUT_DATA.startSortingAlgorithm();
             delayTextField.clear();
-            arrayElementsTextField.clear();
         });
         delete.setOnAction(actionEvent -> {
             Double[] array = parseTextField(arrayElementsTextField);
             INPUT_DATA.setArray(array);
             INPUT_DATA.setDelay(Integer.parseInt(delayTextField.getText()));
-            whenStarted();
+            whenStarted(arrayElementsTextField, INPUT_DATA);
             CONTROLLER = INPUT_DATA.startAdditionalAlgorithm();
             delayTextField.clear();
-            arrayElementsTextField.clear();
         });
         selection.setOnAction(actionEvent -> {
             Double[] array = parseTextField(arrayElementsTextField);
             INPUT_DATA.setArray(array);
             INPUT_DATA.setDelay(Integer.parseInt(delayTextField.getText()));
-            whenStarted();
+            whenStarted(arrayElementsTextField, INPUT_DATA);
             CONTROLLER = INPUT_DATA.startSelectionSort();
             delayTextField.clear();
-            arrayElementsTextField.clear();
         });
         sinus.setOnAction(actionEvent -> {
             Double[] array = parseTextField(arrayElementsTextField);
             INPUT_DATA.setArray(array);
             INPUT_DATA.setDelay(Integer.parseInt(delayTextField.getText()));
-            whenStarted();
+            whenStarted(arrayElementsTextField, INPUT_DATA);
             CONTROLLER = INPUT_DATA.startSinusAlgorithm();
             delayTextField.clear();
-            arrayElementsTextField.clear();
         });
-        PANE.getChildren().addAll(arrayElementsTextField, arraySize, delayTextField, button, random, delete, selection, sinus);
+        shell.setOnAction(actionEvent -> {
+            ArrayList<String> input = new ArrayList<>();
+            Collections.addAll(input, arrayElementsTextField.getText().split(" "));
+            ArrayList<ArrayList<String>> input2D = new ArrayList<>();
+            for(int i = 0; i < input.size(); i++){
+                input2D.add(i, new ArrayList<>());
+                Collections.addAll(input2D.get(i), input.get(i).split("\\|"));
+            }
+            Vector[] inputData = new Vector[input.size()];
+            for(int i = 0; i < inputData.length; i++){
+                Double[] temp = new Double[input2D.get(i).size()];
+                for(int i1 = 0; i1 < input2D.get(i).size(); i1++){
+                    temp[i1] = Double.valueOf(input2D.get(i).get(i1));
+                }
+                inputData[i] = new Vector(temp);
+            }
+            InputData<Vector> vectorsInput = new InputData<>();
+            vectorsInput.setArray(inputData);
+            vectorsInput.setDelay(Integer.parseInt(delayTextField.getText()));
+            whenStarted(arrayElementsTextField, vectorsInput);
+            CONTROLLER = vectorsInput.startShellAlgorithm();
+            delayTextField.clear();
+        });
+        PANE.getChildren().addAll(arrayElementsTextField, arraySize, delayTextField, button, random, delete, selection, sinus, shell);
     }
     public Double[] parseTextField(TextField textField){
         Double[] array = new Double[INPUT_DATA.getSize()];
@@ -124,13 +148,13 @@ public class MainApplication extends Application {
         }
         return array;
     }
-    public void whenStarted(){
+    public void whenStarted(TextField inputField, InputData<?> inputData){
         Button pause = new Button("Pause");
         pause.resize(50, 50);
         pause.relocate(250, 150);
         pause.setOnAction(actionEvent -> CONTROLLER.setToPause(true));
         Label result = new Label();
-        result.relocate(250, 200);
+        result.relocate(250, 230);
         result.setFont(new Font(20));
         Label timeCount = new Label();
         timeCount.relocate(250, 200);
@@ -141,9 +165,10 @@ public class MainApplication extends Application {
         reset.setOnAction(actionEvent -> {
             result.setText("");
             timeCount.setText("");
+            inputField.clear();
         });
-        INPUT_DATA.setTimeCountDisplay(timeCount);
-        INPUT_DATA.setLabelToDisplay(result);
+        inputData.setTimeCountDisplay(timeCount);
+        inputData.setLabelToDisplay(result);
         PANE.getChildren().addAll(pause, reset, result, timeCount);
     }
 }

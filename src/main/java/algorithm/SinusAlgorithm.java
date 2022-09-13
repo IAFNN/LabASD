@@ -1,10 +1,12 @@
 package algorithm;
 
-public class SinusAlgorithm extends Algorithm{
-    public SinusAlgorithm(Double[] array, int delay){
-        super(array, delay);
+public class SinusAlgorithm extends Algorithm<Double>{
+    public SinusAlgorithm(InputData<Double> inputData){
+        super(inputData);
+        this.array = inputData.getArray();
     }
     private int i;
+    private Double[] array;
     @Override
     public void run() {
         for(i = 0; i < array.length; i++){
@@ -17,5 +19,6 @@ public class SinusAlgorithm extends Algorithm{
             }
         }
         i--;
+        waitForDelay();
     }
 }

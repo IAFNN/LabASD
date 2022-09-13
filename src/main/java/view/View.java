@@ -20,7 +20,7 @@ public class View extends Thread{
         try {
             Thread.sleep(algorithm.getDelay() / 10);
             while (algorithm.isAlive()) {
-                Platform.runLater(() -> labelToDisplayResult.setText(algorithm.getToString().get()));
+                Platform.runLater(() -> labelToDisplayResult.setText(algorithm.getToString().get().toString()));
                 Thread.sleep(algorithm.getDelay() / 2);
             }
         }catch (InterruptedException e){

@@ -1,10 +1,10 @@
 package algorithm;
 
-public class SelectionSort extends Algorithm{
-    public SelectionSort(Double[] array, int delay){
-        super(array, delay);
+public class SelectionSort<T> extends Algorithm<T>{
+    public SelectionSort(InputData<? extends Comparable<T>> inputData){
+        super(inputData);
     }
-    private double max;
+    private Comparable<T> max;
     private int i2;
     private int i;
     @Override
@@ -15,7 +15,7 @@ public class SelectionSort extends Algorithm{
             toString = () -> this + "\nCurrent max element is " + max + ", now comparing with " + array[i2];
             for(i2 = i + 1; i2 < array.length; i2++){
                 waitForDelay();
-                if(array[i2] > max){
+                if(array[i2].compareTo((T) max) > 0){
                     maxIndex = i2;
                     max = array[i2];
                 }
@@ -23,7 +23,7 @@ public class SelectionSort extends Algorithm{
             i2--;
             toString = () -> this + "\nMax element in this iteration is " + max + ", swapping with " + array[i];
             waitForDelay();
-            double temp = array[i];
+            Comparable<T> temp = array[i];
             array[i] = array[maxIndex];
             array[maxIndex] = temp;
             i2 = i + 2;

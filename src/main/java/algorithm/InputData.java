@@ -3,9 +3,9 @@ import controller.Controller;
 import view.View;
 import javafx.scene.control.Label;
 
-public class InputData {
+public class InputData<T extends Comparable<T>> {
     private int size;
-    private Double[] array;
+    private T[] array;
     private Label labelToDisplay;
     private Label timeCountDisplay;
     private int delay = 0;
@@ -14,7 +14,14 @@ public class InputData {
 
     public void setSize(int size) {
         this.size = size;
-        array = new Double[size];
+    }
+
+    public T[] getArray() {
+        return array;
+    }
+
+    public int getDelay() {
+        return delay;
     }
 
     public void setTimeCountDisplay(Label timeCountDisplay) {
@@ -31,7 +38,7 @@ public class InputData {
         this.delay = delay;
     }
 
-    public void setArray(Double[] array) {
+    public void setArray(T[] array) {
         this.array = array;
     }
 
@@ -39,32 +46,64 @@ public class InputData {
         return size;
     }
     public Controller startSortingAlgorithm(){
-        Algorithm algorithm = new BubbleSort(array, delay);
-        Controller controller = algorithm.getController();
-        new View(labelToDisplay, timeCountDisplay, algorithm).start();
-        algorithm.start();
-        return controller;
+        try {
+            Algorithm<T> algorithm = new BubbleSort<>(this);
+            Controller controller = algorithm.getController();
+            new View(labelToDisplay, timeCountDisplay, algorithm).start();
+            algorithm.start();
+            return controller;
+        }catch (ClassCastException e){
+            System.out.println("Incorrect data type");
+            return null;
+        }
     }
     public Controller startAdditionalAlgorithm(){
-        Algorithm algorithm = new DeletingAlgorithm(array, delay);
-        Controller controller = algorithm.getController();
-        new View(labelToDisplay, timeCountDisplay, algorithm).start();
-        algorithm.start();
-        return controller;
+        try {
+            Algorithm<T> algorithm = new DeletingAlgorithm<>(this);
+            Controller controller = algorithm.getController();
+            new View(labelToDisplay, timeCountDisplay, algorithm).start();
+            algorithm.start();
+            return controller;
+        }catch (ClassCastException e){
+            System.out.println("incorrect data type");
+            return null;
+        }
     }
     public Controller startSelectionSort(){
-        Algorithm algorithm = new SelectionSort(array, delay);
-        Controller controller = algorithm.getController();
-        new View(labelToDisplay, timeCountDisplay, algorithm).start();
-        algorithm.start();
-        return controller;
+        try {
+            Algorithm<T> algorithm = new SelectionSort<>(this);
+            Controller controller = algorithm.getController();
+            new View(labelToDisplay, timeCountDisplay, algorithm).start();
+            algorithm.start();
+            return controller;
+        }catch (ClassCastException e){
+            System.out.println("incorrect data type");
+            return null;
+        }
     }
     public Controller startSinusAlgorithm(){
-        Algorithm algorithm = new SinusAlgorithm(array, delay);
-        Controller controller = algorithm.getController();
-        new View(labelToDisplay, timeCountDisplay, algorithm).start();
-        algorithm.start();
-        return controller;
+        try {
+            Algorithm<Double> algorithm = new SinusAlgorithm((InputData<Double>) this);
+            Controller controller = algorithm.getController();
+            new View(labelToDisplay, timeCountDisplay, algorithm).start();
+            algorithm.start();
+            return controller;
+        }catch (ClassCastException e){
+            System.out.println("Incorrect type of data");
+            return null;
+        }
+    }
+    public Controller startShellAlgorithm(){
+        try {
+            Algorithm<Vector> algorithm = new ShellAlgorithm((InputData<Vector>) this);
+            Controller controller = algorithm.getController();
+            new View(labelToDisplay, timeCountDisplay, algorithm).start();
+            algorithm.start();
+            return controller;
+        }catch (ClassCastException e){
+            System.out.println("Incorrect type of data");
+            return null;
+        }
     }
 }
 
